@@ -8,7 +8,10 @@ st.set_page_config(
     layout="centered"
 )
 
-model = joblib.load("heart_disease_model.pkl")
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+MODEL_PATH = os.path.join(BASE_DIR, "heart_disease_model.pkl")
+
+model = joblib.load(MODEL_PATH)
 
 st.title("❤️ Heart Disease Prediction System")
 st.write("Enter the patient details below.")
