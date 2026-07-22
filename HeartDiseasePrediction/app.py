@@ -179,10 +179,6 @@ if submitted:
 st.markdown("---")
 
 st.caption(
-    "Developed by Manmeet Singh | Supervisor: Dr. Taha Hussein Rassem"
-)
-
-st.caption(
     "Disclaimer: This system is not a medical diagnosis. "
     "Consult a qualified healthcare professional for medical advice."
 )
