@@ -37,11 +37,6 @@ st.write(
     "a machine-learning prediction."
 )
 
-st.info(
-    "This application is developed for academic purposes only."
-)
-
-
 # Patient input form
 with st.form("prediction_form"):
 
@@ -162,15 +157,13 @@ if submitted:
             confidence = None
 
         st.subheader("Prediction Result")
-
-        if prediction == 1:
-            st.error("Higher predicted risk of heart disease")
-        else:
-            st.success("Lower predicted risk of heart disease")
+if prediction == 1:
+    st.error("High Risk of Heart Disease")
+else:
+    st.success("Low Risk of Heart Disease")
 
         if confidence is not None:
             st.write(f"Model confidence: **{confidence:.2f}%**")
-            st.progress(confidence / 100)
 
     except Exception as error:
         st.error(f"Prediction could not be completed: {error}")
