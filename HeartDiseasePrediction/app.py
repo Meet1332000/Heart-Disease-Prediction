@@ -8,15 +8,16 @@ import streamlit as st
 # Page settings
 st.set_page_config(
     page_title="Heart Disease Prediction",
-    page_icon="❤️"
+    layout="centered"
 )
 
 
-# Load model
+# Model path
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 MODEL_PATH = os.path.join(BASE_DIR, "heart_disease_model.pkl")
 
 
+# Load trained model
 @st.cache_resource
 def load_model():
     return joblib.load(MODEL_PATH)
@@ -30,12 +31,12 @@ except Exception as error:
 
 
 # Website title
-st.title("❤️ Heart Disease Prediction System")
+st.title("Heart Disease Prediction System")
 
 st.write(
-    "Enter the patient’s clinical information below to generate "
-    "a machine-learning prediction."
+    "Please enter the patient's clinical information to generate a prediction."
 )
+
 
 # Patient input form
 with st.form("prediction_form"):
@@ -44,7 +45,8 @@ with st.form("prediction_form"):
         "Age",
         min_value=18,
         max_value=100,
-        value=50
+        value=50,
+        step=1
     )
 
     sex = st.selectbox(
@@ -62,14 +64,16 @@ with st.form("prediction_form"):
         "Resting Blood Pressure",
         min_value=50,
         max_value=250,
-        value=120
+        value=120,
+        step=1
     )
 
     chol = st.number_input(
         "Cholesterol",
         min_value=50,
         max_value=700,
-        value=200
+        value=200,
+        step=1
     )
 
     fbs = st.selectbox(
@@ -87,7 +91,8 @@ with st.form("prediction_form"):
         "Maximum Heart Rate Achieved",
         min_value=50,
         max_value=250,
-        value=150
+        value=150,
+        step=1
     )
 
     exang = st.selectbox(
@@ -150,26 +155,28 @@ if submitted:
     try:
         prediction = int(model.predict(patient_data)[0])
 
+        confidence = None
+
         if hasattr(model, "predict_proba"):
             probabilities = model.predict_proba(patient_data)[0]
-            confidence = probabilities[prediction] * 100
-        else:
-            confidence = None
+            confidence = float(probabilities[prediction] * 100)
 
         st.subheader("Prediction Result")
-if prediction == 1:
-    st.error("High Risk of Heart Disease")
-else:
-    st.success("Low Risk of Heart Disease")
+
+        if prediction == 1:
+            st.error("High Predicted Risk of Heart Disease")
+        else:
+            st.success("Low Predicted Risk of Heart Disease")
 
         if confidence is not None:
-            st.write(f"Model confidence: **{confidence:.2f}%**")
+            st.write(f"**Model Confidence: {confidence:.2f}%**")
 
     except Exception as error:
         st.error(f"Prediction could not be completed: {error}")
 
 
 st.markdown("---")
+
 st.caption(
     "This application is intended for educational purposes only."
 )
