@@ -177,8 +177,6 @@ if submitted:
 
 
 st.markdown("---")
-
 st.caption(
-    "Disclaimer: This system is not a medical diagnosis. "
-    "Consult a qualified healthcare professional for medical advice."
+    "This application is intended for educational purposes only."
 )
