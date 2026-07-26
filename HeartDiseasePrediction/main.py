@@ -83,12 +83,37 @@ y_pred = model.predict(X_test)
 # Print results
 print("Accuracy:", accuracy_score(y_test, y_pred))
 
-print("\nClassification Report:")
+print("\nClassification Report logistic regression:")
 print(classification_report(y_test, y_pred))
 
 print("\nConfusion Matrix:")
 print(confusion_matrix(y_test, y_pred))
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.tree import DecisionTreeClassifier
+
+# ==============================
+# Decision Tree Model
+# ==============================
+
+dt_model = DecisionTreeClassifier(
+    max_depth=5,
+    random_state=42
+)
+
+dt_model.fit(X_train, y_train)
+dt_pred = dt_model.predict(X_test)
+
+print("\n==============================")
+print("Decision Tree Results")
+print("==============================")
+print("Accuracy:", accuracy_score(y_test, dt_pred))
+
+print("\nClassification Report:")
+print(classification_report(y_test, dt_pred))
+
+print("\nConfusion Matrix:")
+print(confusion_matrix(y_test, dt_pred))
+
 
 # Create Random Forest model
 rf_model = RandomForestClassifier(
@@ -140,9 +165,10 @@ print(classification_report(y_test, xgb_pred))
 
 print("\nConfusion Matrix:")
 print(confusion_matrix(y_test, xgb_pred))
-models = ["Logistic Regression", "Random Forest", "XGBoost"]
+models = ["Logistic Regression", "Decision Tree", "Random Forest", "XGBoost"]
 accuracies = [
     accuracy_score(y_test, y_pred),
+    accuracy_score(y_test, dt_pred),
     accuracy_score(y_test, rf_pred),
     accuracy_score(y_test, xgb_pred)
 ]
@@ -153,11 +179,17 @@ for model, acc in zip(models, accuracies):
     print(f"{model}: {acc:.4f}")
     import matplotlib.pyplot as plt
 
-models = ["Logistic Regression", "Random Forest", "XGBoost"]
-accuracies = [0.7951, 0.9854, 0.9854]
+models = ["Logistic Regression", "Decision Tree", "Random Forest", "XGBoost"]
+accuracies = [
+    accuracy_score(y_test, y_pred),
+    accuracy_score(y_test, dt_pred),
+    accuracy_score(y_test, rf_pred),
+    accuracy_score(y_test, xgb_pred)
+]
 
-plt.figure(figsize=(8,5))
+plt.figure(figsize=(10,5))
 plt.bar(models, accuracies)
+plt.xticks(rotation=15)
 
 plt.title("Model Accuracy Comparison")
 plt.xlabel("Models")
